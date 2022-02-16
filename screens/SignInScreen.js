@@ -1,12 +1,15 @@
 import React, {useState} from 'react'
 import {View, Text, SafeAreaView} from 'react-native'
+import { SignUpScreen } from '.'
 import { FormInput, FormButton } from './components'
 const SignInScreen = ({navigation}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleOnSubmit = () => {
-    console.log('hi')
+    console.log(`email:${email}; password:${password}`)
+    setEmail('')
+    setPassword('')
   }
   return (
     <SafeAreaView
@@ -47,6 +50,11 @@ const SignInScreen = ({navigation}) => {
 
       {/* SubmitButton */}
       <FormButton labelText={'Submit'} handleOnPress={handleOnSubmit} style={{width:'100%'}}/>
+
+      <View style={{flexDirection:'row', alignItems:'center', marginTop:20}}>
+        <Text> Dont have an account?</Text>
+        <Text style={{marginLeft:4, color:'blue'}} onPress={() => navigation.navigate('SignUpScreen')}>Create account</Text>
+      </View>
     </SafeAreaView>
   )
 }
