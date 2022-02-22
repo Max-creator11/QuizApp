@@ -1,24 +1,39 @@
 import React, {useState} from 'react'
-import {View, Text, SafeAreaView} from 'react-native'
+import {StyleSheet,View, Text, SafeAreaView} from 'react-native'
 import {FormInput, FormButton } from './components'
-
+import { auth } from '../firebase'
 
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   const [confirmationPassword, setConfirmationPassword] = useState('')
+
+
 
   const handleOnSubmit = () => {
     if(email !='' && password != '' && confirmationPassword !=''){
       if(password == confirmationPassword){
-        //SignUp
+        auth.createUserWithEmailAndPassword(email, password).then(() => {
+          setError('')
+        }).catch(() => setError('failed to sign up!'))
+
       } else {
-        alert('password did not match')
+        setError('password do not match!')
       }
     } 
-    setEmail('')
-    setPassword('')
-    setConfirmationPassword('')
+    
+  }
+
+  const ShowError = () => {
+    return(
+      <>
+      {error && (
+      <View style={styles.errorBox}>
+        <Text style={styles.errorBoxText}>{error}</Text>
+      </View>) }
+      </>
+    )
   }
 
   return (
@@ -41,7 +56,8 @@ const SignUpScreen = ({navigation}) => {
       </Text>
 
       {/* Form */}
-
+        
+      <ShowError/>
       <FormInput 
       labelText='Email'
       placeholderText='enter your email'
@@ -70,11 +86,26 @@ const SignUpScreen = ({navigation}) => {
       <FormButton labelText={'Submit'} handleOnPress={handleOnSubmit} style={{width:'100%'}}/>
 
       <View style={{flexDirection:'row', alignItems:'center', marginTop:20}}>
-        <Text> Dont have an account?</Text>
-        <Text style={{marginLeft:4, color:'blue'}} onPress={() => navigation.navigate('SignInScreen')}>Create account</Text>
+      
+     
+       
+        <Text> Already a user?</Text>
+        <Text style={{marginLeft:4, color:'blue'}} onPress={() => navigation.navigate('SignInScreen')}>Log in</Text>
       </View>
     </SafeAreaView>
   )
 }
 
 export default SignUpScreen
+
+const styles = StyleSheet.create({
+  errorBox:{
+  borderRadius: 5,
+  padding:10,
+  backgroundColor:'#a52a2a'
+  },
+  errorBoxText:{
+  color:'white',
+  fontWeight:'700'
+  }
+})
