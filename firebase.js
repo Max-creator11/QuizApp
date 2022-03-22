@@ -23,6 +23,7 @@ export const createQuiz = (currentQuizId, title, description) => {
 
 export const createQuestion = (currentQuizId, currentQuestionId, question) => {
     firestore.collection('Quizzes').doc(currentQuizId).collection('QNA').doc(currentQuestionId).set(question);
+    {/* 35:35 video 2*/}
         
 }
 
