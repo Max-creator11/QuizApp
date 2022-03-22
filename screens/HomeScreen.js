@@ -1,21 +1,34 @@
 import React from 'react'
 import {StyleSheet, View, Text} from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { auth } from '../firebase'
+import { FormButton } from './components'
 const HomeScreen = ({navigation}) => {
   
-const handleOnPress = () => {
+const handleLogOut = () => {
   auth.signOut().then(navigation.navigate('SignInScreen')).catch(error => alert(error.message))
 }
 
   return (
+    <>
     <View style={styles.container}>
-        <Text>{auth.currentUser?.email}</Text>
+        <Text >{auth.currentUser?.email}</Text>
    
-    <TouchableOpacity style={styles.button} onPress={handleOnPress}>
-    <Text style={styles.buttonText}>Sign out</Text>
-    </TouchableOpacity>
+    <FormButton
+      labelText='Sign Out'
+      handleOnPress={handleLogOut}
+      
+      />
     </View>
+      
+    <View>
+    <FormButton
+      labelText='Create Quiz'
+      handleOnPress={() => {
+        navigation.navigate('CreateQuizScreen')
+      }}
+    /> 
+    </View>
+    </>
   )
 }
 
@@ -23,9 +36,12 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container:{
-    flex:1,
-    justifyContent: 'center',
+    display:'flex',
+    justifyContent:'space-around',
     alignItems:'center',
+    flexDirection:'row',
+    border:'2px solid red'
+   
   },
   button:{
     backgroundColor:'#0782F9',

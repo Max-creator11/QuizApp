@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-
+import {getFirestore, setDoc, doc} from 'firebase/firestore'
 const app = firebase.initializeApp ({
         apiKey: "AIzaSyBxZQx-WDLkqxkyYJ5puXk0Ja5jZeIUgKg",
         authDomain: "quiz-app-b7e0f.firebaseapp.com",
@@ -11,5 +11,19 @@ const app = firebase.initializeApp ({
     })
 
 export const auth = app.auth()
+const firestore = getFirestore();
+
+export const createQuiz = (currentQuizId, title, description) => {
+    setDoc(doc(firestore, 'Quizzes', currentQuizId), {
+        title:title,
+        description:description
+    })
+    
+}
+
+export const createQuestion = (currentQuizId, currentQuestionId, question) => {
+    firestore.collection('Quizzes').doc(currentQuizId).collection('QNA').doc(currentQuestionId).set(question);
+        
+}
 
 export default app;
