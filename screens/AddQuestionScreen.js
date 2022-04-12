@@ -24,7 +24,7 @@ const AddQuestionScreen = ({navigation, route}) => {
             alert('enter all data!')
             return;
         }
-        let currentQuestionId = Math.floor(10000 + Math.floor() * 9000).toString()
+        let currentQuestionId = Math.floor(10000 * Math.random() * 9000).toString();
 
         await createQuestion(currentQuizId, currentQuestionId, {
             question:question,

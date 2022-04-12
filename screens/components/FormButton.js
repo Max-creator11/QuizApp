@@ -10,11 +10,11 @@ const FormButton = ({
   return (
       <TouchableOpacity 
       style={{
-          paddingVertical:10,
           backgroundColor: isPrimary? 'blue' : 'white',
-          borderWidth: 1,
-          borderColor: 'blue',
-          borderRadius: 5,
+          padding:10,
+          paddingLeft:14,
+          paddingRight:14,
+          borderRadius: 20,
           ...style
       }}
       activeOpacity={0.9}
@@ -23,7 +23,7 @@ const FormButton = ({
           <Text style={{
               textAlign:'center',
               color: isPrimary? 'white' : 'black',
-              fontSize:18
+              fontSize:14
           }}>{labelText}</Text>
       </TouchableOpacity>
     )

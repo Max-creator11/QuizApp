@@ -12,6 +12,10 @@ const CreateQuizScreen = ({ navigation }) => {
         const currentQuizId = Math.floor(10000*Math.random()*9000).toString();
         if(title!==''){
         await createQuiz(currentQuizId, title, description)
+        navigation.navigate('AddQuestionScreen', {
+            currentQuizId:currentQuizId,
+            currentQuizTitle:title,
+        })
         } else {
             alert('Enter Title!')
         }
@@ -54,15 +58,7 @@ const CreateQuizScreen = ({ navigation }) => {
             labelText='Save Quiz'
             handleOnPress={handleQuizSave}
         />
-        {/* Temporary button for navigating to AddQuestionScreen without saving*/}
-        <FormButton
-        handleOnPress={() => {
-            navigation.navigate('AddQuestionScreen', {
-                currentQuizId:'123321',
-                currentQuizTitle:'Demo quiz',
-            })
-        }}
-        />
+        
     </SafeAreaView>
   )
 }

@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-import {getFirestore, setDoc, doc} from 'firebase/firestore'
+import 'firebase/compat/firestore'
+import {getFirestore, setDoc, addDoc, doc} from 'firebase/firestore'
 const app = firebase.initializeApp ({
         apiKey: "AIzaSyBxZQx-WDLkqxkyYJ5puXk0Ja5jZeIUgKg",
         authDomain: "quiz-app-b7e0f.firebaseapp.com",
@@ -12,6 +13,7 @@ const app = firebase.initializeApp ({
 
 export const auth = app.auth()
 const firestore = getFirestore();
+const db = firebase.firestore();
 
 export const createQuiz = (currentQuizId, title, description) => {
     setDoc(doc(firestore, 'Quizzes', currentQuizId), {
@@ -22,9 +24,13 @@ export const createQuiz = (currentQuizId, title, description) => {
 }
 
 export const createQuestion = (currentQuizId, currentQuestionId, question) => {
-    firestore.collection('Quizzes').doc(currentQuizId).collection('QNA').doc(currentQuestionId).set(question);
+    db.collection('Quizzes').doc(currentQuizId).collection('QNA').doc(currentQuestionId).set(question);
     {/* 35:35 video 2*/}
         
+}
+
+export const getQuizzes = () => {
+    return db.collection('Quizzes').get();
 }
 
 export default app;
