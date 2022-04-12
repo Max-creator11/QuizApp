@@ -18,7 +18,6 @@ const HomeScreen = ({navigation}) => {
       })
       await setAllQuizzes([...tempQuizzes])
       setRefreshing(false)
-      console.log(allQuizzes)
   }
 
   const handleLogOut = () => {
@@ -52,12 +51,18 @@ const HomeScreen = ({navigation}) => {
         paddingHorizontal:30,
         borderRadius:50,
         backgroundColor:'blue',
+      }}
+      onPress={()=> {
+        navigation.navigate('PlayQuizScreen',{
+          quizId: quiz.id,
+
+         })
       }}>
         <Text style={{color:'white'}}>Play</Text>
       </TouchableOpacity>
     </View>
      ))}
-    <View style={styles.container}>
+    <View style={styles.container_flex}>
     <FormButton
       labelText='Create Quiz'
       handleOnPress={() => {
@@ -79,6 +84,15 @@ const styles = StyleSheet.create({
     alignItems:'center',
     flexDirection:'row',
    
+  },
+  container_flex:{
+    marginTop:5,
+    display:'flex',
+    justifyContent:'flex-end',
+    marginHorizontal:10,
+    marginTop: 25,
+    alignItems:'center',
+    flexDirection:'row',
   },
   logout:{
     color:'red',

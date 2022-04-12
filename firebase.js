@@ -33,4 +33,13 @@ export const getQuizzes = () => {
     return db.collection('Quizzes').get();
 }
 
+export const getQuizById = currentQuizId => {
+    return db.collection('Quizzes').doc(currentQuizId).get()
+}
+
+export const getQuestionsByQuizId = currentQuizId => {
+    return db.collection('Quizzes').doc(currentQuizId).collection('QNA').get()
+}
+
+
 export default app;

@@ -28,8 +28,9 @@ const AddQuestionScreen = ({navigation, route}) => {
 
         await createQuestion(currentQuizId, currentQuestionId, {
             question:question,
-            corrent_answer:correctAnswer,
-            incorrent_answers: [optionTwo, optionThree, optionFour]
+            correct_answer:correctAnswer,
+            incorrect_answers: [optionTwo, optionThree, optionFour],
+            allOptions: [correctAnswer, optionTwo, optionThree, optionFour],
         })
         alert('question saved!');
         setQuestion('');
