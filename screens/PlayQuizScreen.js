@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Modal } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { getQuizById, getQuestionsByQuizId } from '../firebase'
@@ -12,7 +12,8 @@ const PlayQuizScreen = ({navigation, route}) => {
     const [questions, setQuestion] = useState([])
     const [correctCount, setCorrectCount] = useState(0)
     const [inCorrectCount, setIncorrectCount] = useState(0)
-  
+    const [isAllowed, setIsAllowed] = useState(false)
+    const [isDisabledToClick, setIsDisabledToClick] = useState(true)
     const getQuizAndQuestionDetails = async () => {
         let currentQuiz = await getQuizById(currentQuizId)
         currentQuiz = currentQuiz.data()
@@ -29,6 +30,7 @@ const PlayQuizScreen = ({navigation, route}) => {
         setQuestion(tempQuestions)
 
     }
+   
 
     useEffect(() => {
         stateArray=[]
@@ -36,11 +38,18 @@ const PlayQuizScreen = ({navigation, route}) => {
         
     },[])
 
+    useEffect(() => {
+        if(correctCount + inCorrectCount == questions.length && questions.length !=0){
+            setIsDisabledToClick(false)
+        }
+    }, [correctCount, inCorrectCount])
+
     
 
    
 
   return (
+      
      <SafeAreaView
      style={{
          flex:1,
@@ -57,6 +66,7 @@ const PlayQuizScreen = ({navigation, route}) => {
              elevation:4,
 
          }}>
+
              <Text style={{color:'red'}} onPress={() => navigation.navigate('HomeScreen')}>Back</Text>
 
              <Text style={{fontSize:16, marginLeft:10}}>{title}</Text>
@@ -76,7 +86,7 @@ const PlayQuizScreen = ({navigation, route}) => {
                      borderTopLeftRadius:10,
                      borderBottomLeftRadius:10,
                  }}>
-                     <Text style={{color:'white'}}>{correctCount}</Text>
+                     <Text style={{color:'white'}}>{isAllowed? correctCount : 0}</Text>
                  </View>
 
 
@@ -90,7 +100,7 @@ const PlayQuizScreen = ({navigation, route}) => {
                      borderTopRightRadius:10,
                      borderBottomRightRadius:10,
                  }}>
-                     <Text style={{color:'white'}}>{inCorrectCount}</Text>
+                     <Text style={{color:'white'}}>{isAllowed? inCorrectCount : 0}</Text>
                  </View>
              </View>
 
@@ -136,9 +146,8 @@ const PlayQuizScreen = ({navigation, route}) => {
                             } else{
                                 setIncorrectCount(inCorrectCount + 1)
                             }
-                            
                         stateArray.push(selectedDoc)
-
+                            
                         }}
                         >
                             
@@ -157,12 +166,27 @@ const PlayQuizScreen = ({navigation, route}) => {
                     ))}
                     </View>
                  ))}
-                <TouchableOpacity onPress={() => {
-                    
-                }}>
-                   <Text> Send</Text>
+                <TouchableOpacity style={{
+                    marginLeft:40,
+                    marginRight:40,
+                    marginBottom:20,
+                    textAlign:'center',
+                    marginTop:20,
+                    padding:10,
+                     borderRadius:50,
+                     backgroundColor: isDisabledToClick? 'grey' : 'blue',
+                     
+                }} 
+                disabled={isDisabledToClick}
+                onPress={() => setIsAllowed(true)}>
+                   <Text style={{
+                       color:'white',
+                   }}>Show Results</Text>
+
                 </TouchableOpacity>
+
              </View>
+            
     </SafeAreaView>
   )
 }   
